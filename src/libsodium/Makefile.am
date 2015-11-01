@@ -36,7 +36,11 @@ libsodium_la_SOURCES = \
 	crypto_generichash/blake2/ref/api.h \
 	crypto_generichash/blake2/ref/blake2-impl.h \
 	crypto_generichash/blake2/ref/blake2.h \
+	crypto_generichash/blake2/ref/blake2b-compress-ref.c \
+	crypto_generichash/blake2/ref/blake2b-load-sse2.h \
+	crypto_generichash/blake2/ref/blake2b-load-sse41.h \
 	crypto_generichash/blake2/ref/blake2b-ref.c \
+	crypto_generichash/blake2/ref/blake2b-round.h \
 	crypto_generichash/blake2/ref/generichash_blake2b.c \
 	crypto_hash/crypto_hash.c \
 	crypto_hash/sha256/hash_sha256_api.c \
@@ -47,13 +51,11 @@ libsodium_la_SOURCES = \
 	crypto_hash/sha512/cp/hash_sha512.c \
 	crypto_onetimeauth/crypto_onetimeauth.c \
 	crypto_onetimeauth/poly1305/onetimeauth_poly1305.c \
-	crypto_onetimeauth/poly1305/onetimeauth_poly1305_api.c \
-	crypto_onetimeauth/poly1305/onetimeauth_poly1305_try.c \
+	crypto_onetimeauth/poly1305/onetimeauth_poly1305.h \
 	crypto_onetimeauth/poly1305/donna/poly1305_donna.h \
 	crypto_onetimeauth/poly1305/donna/poly1305_donna32.h \
 	crypto_onetimeauth/poly1305/donna/poly1305_donna64.h \
 	crypto_onetimeauth/poly1305/donna/auth_poly1305_donna.c \
-	crypto_onetimeauth/poly1305/donna/verify_poly1305_donna.c \
 	crypto_pwhash/scryptsalsa208sha256/crypto_scrypt-common.c \
 	crypto_pwhash/scryptsalsa208sha256/crypto_scrypt.h \
 	crypto_pwhash/scryptsalsa208sha256/scrypt_platform.c \
@@ -268,19 +270,29 @@ endif
 SUBDIRS = \
 	include
 
-libsodium_la_LIBADD = libaesni.la libsse2.la
-noinst_LTLIBRARIES =  libaesni.la libsse2.la
+libsodium_la_LIBADD = libaesni.la libsse2.la libssse3.la libsse41.la
+noinst_LTLIBRARIES =  libaesni.la libsse2.la libssse3.la libsse41.la
 
 libaesni_la_LDFLAGS = $(libsodium_la_LDFLAGS)
 libaesni_la_CPPFLAGS = $(libsodium_la_CPPFLAGS) \
 	@CFLAGS_SSSE3@ @CFLAGS_AESNI@ @CFLAGS_PCLMUL@
-
 libaesni_la_SOURCES = \
 	crypto_aead/aes256gcm/aesni/aead_aes256gcm_aesni.c
 
 libsse2_la_LDFLAGS = $(libsodium_la_LDFLAGS)
 libsse2_la_CPPFLAGS = $(libsodium_la_CPPFLAGS) \
 	@CFLAGS_SSE2@
-
 libsse2_la_SOURCES = \
 	crypto_pwhash/scryptsalsa208sha256/sse/pwhash_scryptsalsa208sha256_sse.c
+
+libssse3_la_LDFLAGS = $(libsodium_la_LDFLAGS)
+libssse3_la_CPPFLAGS = $(libsodium_la_CPPFLAGS) \
+	@CFLAGS_SSE2@ @CFLAGS_SSSE3@
+libssse3_la_SOURCES = \
+	crypto_generichash/blake2/ref/blake2b-compress-ssse3.c
+
+libsse41_la_LDFLAGS = $(libsodium_la_LDFLAGS)
+libsse41_la_CPPFLAGS = $(libsodium_la_CPPFLAGS) \
+	@CFLAGS_SSE2@ @CFLAGS_SSSE3@ @CFLAGS_SSE41@
+libsse41_la_SOURCES = \
+	crypto_generichash/blake2/ref/blake2b-compress-sse41.c

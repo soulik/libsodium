@@ -145,7 +145,9 @@ sodium_compare(const unsigned char *b1_, const unsigned char *b2_, size_t len)
 #if HAVE_WEAK_SYMBOLS
     _sodium_dummy_symbol_to_prevent_compare_lto(b1, b2, len);
 #endif
-    for (i = (size_t) 0U; i < len; i++) {
+    i = len;
+    while (i != 0U) {
+        i--;
         gt |= ((b2[i] - b1[i]) >> 8) & eq;
         eq &= ((b2[i] ^ b1[i]) - 1) >> 8;
     }
@@ -391,7 +393,7 @@ _free_aligned(unsigned char * const ptr, const size_t size)
 }
 
 static unsigned char *
-_unprotected_ptr_from_user_ptr(const void *ptr)
+_unprotected_ptr_from_user_ptr(void * const ptr)
 {
     uintptr_t      unprotected_ptr_u;
     unsigned char *canary_ptr;

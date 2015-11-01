@@ -1,5 +1,5 @@
 AC_PREREQ([2.65])
-AC_INIT([libsodium],[1.0.4],
+AC_INIT([libsodium],[1.0.6],
   [https://github.com/jedisct1/libsodium/issues],
   [libsodium],
   [https://github.com/jedisct1/libsodium])
@@ -16,10 +16,10 @@ AC_SUBST(VERSION)
 ISODATE=`date +%Y-%m-%d`
 AC_SUBST(ISODATE)
 
-SODIUM_LIBRARY_VERSION_MAJOR=7
-SODIUM_LIBRARY_VERSION_MINOR=6
-DLL_VERSION=6
-SODIUM_LIBRARY_VERSION=16:0:3
+SODIUM_LIBRARY_VERSION_MAJOR=8
+SODIUM_LIBRARY_VERSION_MINOR=0
+DLL_VERSION=7
+SODIUM_LIBRARY_VERSION=17:0:0
 #                       | | |
 #                +------+ | +---+
 #                |        |     |
@@ -327,7 +327,7 @@ AS_IF([test "x$EMSCRIPTEN" = "x"],[
 ]], [[ __m128i x = _mm_minpos_epu16(_mm_setzero_si128()); ]])],
     [AC_MSG_RESULT(yes)
      AC_DEFINE([HAVE_SMMINTRIN_H], [1], [sse4.1 is available])
-     AX_CHECK_COMPILE_FLAG([-msse4.1], [CFLAGS_SSE4_1="-msse4.1"])],
+     AX_CHECK_COMPILE_FLAG([-msse4.1], [CFLAGS_SSE41="-msse4.1"])],
     [AC_MSG_RESULT(no)])
   CFLAGS="$oldcflags"
 
@@ -355,7 +355,7 @@ AC_SUBST(CFLAGS_MMX)
 AC_SUBST(CFLAGS_SSE2)
 AC_SUBST(CFLAGS_SSE3)
 AC_SUBST(CFLAGS_SSSE3)
-AC_SUBST(CFLAGS_SSE4_1)
+AC_SUBST(CFLAGS_SSE41)
 AC_SUBST(CFLAGS_AESNI)
 AC_SUBST(CFLAGS_PCLMUL)
 

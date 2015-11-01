@@ -14,7 +14,12 @@
 extern "C" {
 #endif
 
-#pragma pack(push, 1)
+#ifdef __SUNPRO_C
+# pragma pack(1)
+#else
+# pragma pack(push, 1)
+#endif
+
 typedef CRYPTO_ALIGN(64) struct crypto_generichash_blake2b_state {
     uint64_t h[8];
     uint64_t t[2];
@@ -23,7 +28,12 @@ typedef CRYPTO_ALIGN(64) struct crypto_generichash_blake2b_state {
     size_t   buflen;
     uint8_t  last_node;
 } crypto_generichash_blake2b_state;
-#pragma pack(pop)
+
+#ifdef __SUNPRO_C
+# pragma pack()
+#else
+# pragma pack(pop)
+#endif
 
 #define crypto_generichash_blake2b_BYTES_MIN     16U
 SODIUM_EXPORT
@@ -93,6 +103,10 @@ SODIUM_EXPORT
 int crypto_generichash_blake2b_final(crypto_generichash_blake2b_state *state,
                                      unsigned char *out,
                                      const size_t outlen);
+
+/* ------------------------------------------------------------------------- */
+
+int _crypto_generichash_blake2b_pick_best_implementation(void);
 
 #ifdef __cplusplus
 }
