@@ -56,7 +56,13 @@ SET(_SOURCES
 	crypto_generichash/blake2/ref/api.h
 	crypto_generichash/blake2/ref/blake2-impl.h
 	crypto_generichash/blake2/ref/blake2.h
+	crypto_generichash/blake2/ref/blake2b-load-sse2.h
+	crypto_generichash/blake2/ref/blake2b-load-sse41.h
+	crypto_generichash/blake2/ref/blake2b-round.h
 	crypto_generichash/blake2/ref/blake2b-ref.c
+	crypto_generichash/blake2/ref/blake2b-compress-ref.c
+	crypto_generichash/blake2/ref/blake2b-compress-sse41.c
+	crypto_generichash/blake2/ref/blake2b-compress-ssse3.c
 	crypto_generichash/blake2/ref/generichash_blake2b.c
 	crypto_hash/crypto_hash.c
 	crypto_hash/sha256/hash_sha256_api.c
@@ -67,11 +73,10 @@ SET(_SOURCES
 	crypto_hash/sha512/cp/hash_sha512.c
 	crypto_onetimeauth/crypto_onetimeauth.c
 	crypto_onetimeauth/poly1305/onetimeauth_poly1305.c
-	crypto_onetimeauth/poly1305/onetimeauth_poly1305_api.c
-	crypto_onetimeauth/poly1305/onetimeauth_poly1305_try.c
 	crypto_onetimeauth/poly1305/donna/poly1305_donna.h
+	crypto_onetimeauth/poly1305/donna/poly1305_donna32.h
+	crypto_onetimeauth/poly1305/donna/poly1305_donna64.h
 	crypto_onetimeauth/poly1305/donna/auth_poly1305_donna.c
-	crypto_onetimeauth/poly1305/donna/verify_poly1305_donna.c
 	crypto_scalarmult/crypto_scalarmult.c
 	crypto_secretbox/crypto_secretbox.c
 	crypto_secretbox/crypto_secretbox_easy.c
